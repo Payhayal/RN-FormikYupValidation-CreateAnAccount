@@ -49,9 +49,10 @@ const Form = () => {
       .oneOf([Yup.ref('password')], 'Your password does not match!'),
     agreementConfirm: Yup.bool()
       .required('Required Field')
-      .oneOf([true], 'Please make sure you confirm the terms')
+      .oneOf([true], 'Please make sure you confirm the terms!')
       .isTrue('You cannot continue without accepting the terms!'),
   });
+
   return (
     <View style={styles.topContainer}>
       <View style={styles.view}>
@@ -205,7 +206,16 @@ const Form = () => {
                 <View style={styles.toggleView}>
                   <View>
                     <Toggle
-                      status="success"
+                      caption={
+                        errors.agreementConfirm && touched.agreementConfirm
+                          ? errors.agreementConfirm
+                          : null
+                      }
+                      status={
+                        errors.agreementConfirm && touched.agreementConfirm
+                          ? 'danger'
+                          : 'success'
+                      }
                       style={styles.toggle}
                       onBlur={handleBlur('agreementConfirm')}
                       checked={values.agreementConfirm}
@@ -230,6 +240,12 @@ const Form = () => {
                     </TouchableOpacity>
                   </View>
                 </View>
+
+                {errors.agreementConfirm && (
+                  <Text style={styles.agreementConfirm}>
+                    {errors.agreementConfirm}
+                  </Text>
+                )}
 
                 <Button
                   status="success"
@@ -288,7 +304,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   agreementConfirm: {
-    color: 'red',
+    color: '#FF204E',
   },
 });
 export default Form;
